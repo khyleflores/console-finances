@@ -1,7 +1,7 @@
 var finances = [
 ['Jan-2010', 1000],
 ['Feb-2010', 2000],//1000
-['Mar-2010', -500],//2500
+['Mar-2010', -500],//-2500
 ['Apr-2010', 3500]//4000
 ];
 
@@ -24,30 +24,35 @@ var netTotal = 0;
 var averageChange = 0;
 var monthlyProfits = [];
 var totalChange = 0;
-var mostProfitable= "";
-var leastProfitable= "";
+var mostProfitable= 0;
+var leastProfitable= 0;
 
 // The total number of months included in the dataset.
 totalMonths = finances.length;
-//console.log("Total month is " + totalMonths);
+console.log("Total month is " + totalMonths);
 
 //The net total amount of Profit/Losses over the entire period. 
 for (var i = 0; i < finances.length; i++) {
   netTotal += finances[i][1];
 }
 
-//console.log("Net total is " +netTotal); 
+console.log("Net total is " + netTotal); 
 
-//You will need to track what the total change in profits are from month to month and then find the average.
-function getDifference(a, b) {
-    return a - b;
-  }
-
-for (var i = 0; i < finances.length; i++) {
-    monthlyProfits.push(finances[i][1]);
+//Track total change in profits from month to month
+//First get all the difference of each months ie Febuary - January and put in array
+//finances.length-1 to avoid Null to be substracted to the last index
+for (var i = 0; i < finances.length-1; i++) {
+  monthlyProfits.push(finances[i+1][1] - finances[i][1]);
 }
-
+//Add all monthlyProfits to get the total change in profits
 for (var i = 0; i < monthlyProfits.length; i++) {
-    console.log(getDifference(monthlyProfits[i+1], monthlyProfits[i]));
+  totalChange += monthlyProfits[i];
 }
+//Total/Number of months to get the average of the changes over the entire period
+averageChange = totalChange / totalMonths;
+console.log("Total Change in Profits is " + totalChange); 
+console.log("average of the changes in Profit/Losses over the entire period " + averageChange); 
 
+//Calculating greatest increase in profits using Math.max()
+mostProfitable = Math.max(...monthlyProfits);
+console.log("Greatest increase is :" + mostProfitable);
